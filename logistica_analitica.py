@@ -111,3 +111,64 @@ if res.success:
     plt.show()
 else:
     print("❌ A otimização falhou!")
+
+
+# ========================
+# 5. Visualizações Claras e Informativas
+# ========================
+
+if res.success:
+    # Estoque restante após transporte
+    estoque_utilizado = df_resultado.sum(axis=1).values
+    estoque_restante = estoque_cds - estoque_utilizado
+
+    df_estoque_restante = pd.DataFrame({
+        'CD': cds,
+        'Estoque Inicial': estoque_cds,
+        'Utilizado': estoque_utilizado.astype(int),
+        'Restante': estoque_restante.astype(int)
+    })
+
+    print("\n📊 Estoque restante após transporte:")
+    print(df_estoque_restante)
+
+    plt.figure(figsize=(8, 4))
+    sns.barplot(x='CD', y='Restante', data=df_estoque_restante, palette="Blues_d")
+    plt.title("Estoque Restante por CD após Transporte")
+    plt.ylabel("Unidades")
+    plt.show()
+
+    # Comparação de demanda prevista vs. real
+    plt.figure(figsize=(8, 4))
+    plt.plot(semanas.flatten(), demanda_historica, marker='o', label='Demanda Histórica')
+    plt.axhline(y=previsao, color='red', linestyle='--', label=f'Previsão Semana 13 ({previsao:.0f})')
+    plt.title("Demanda Histórica vs. Previsão")
+    plt.xlabel("Semana")
+    plt.ylabel("Unidades")
+    plt.legend()
+    plt.show()
+
+# ========================
+# 6. Recomendações Práticas Baseadas nos Resultados
+# ========================
+
+if res.success:
+    print("\n💡 Recomendações Operacionais:")
+
+    # CDs com sobra de estoque
+    for idx, cd in enumerate(cds):
+        restante = estoque_restante[idx]
+        if restante > 0:
+            print(f"• {cd}: Ainda possui {restante} unidades em estoque. Pode ser utilizado em futuras demandas ou realocado.")
+
+    # Análise da previsão
+    if previsao > demanda_historica[-1]:
+        print("• A previsão de demanda para a próxima semana indica uma tendência de crescimento. Considere reforçar os estoques nas lojas mais demandadas.")
+    else:
+        print("• A demanda prevista está estável ou em queda. Reavalie a necessidade de envio excessivo de produtos.")
+
+    # Custo alto
+    if res.fun > 0.9 * (custos_transporte.max() * demanda_lojas.sum()):
+        print("• O custo total de transporte está relativamente alto. Avalie a possibilidade de revisar contratos logísticos ou reorganizar rotas.")
+
+    print("• Considere utilizar esta análise regularmente com dados reais atualizados para melhor tomada de decisão logística.")
