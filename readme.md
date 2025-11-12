@@ -1,3 +1,4 @@
+# ANALISE DE DADOS
 # 🚚 Otimização de Logística e Cadeia de Suprimentos com Python
 
 Este projeto é uma aplicação analítica desenvolvida em Python para simular e otimizar a cadeia de suprimentos entre centros de distribuição (CDs) e lojas. Ele aborda desde a **análise exploratória de dados (EDA)** até a **modelagem preditiva**, **prescritiva** e **recomendações operacionais** com foco em decisões logísticas inteligentes.
@@ -102,3 +103,4 @@ Você pode expandir este projeto para incluir:
 Este projeto tem fins didáticos e de prototipagem analítica, sendo ideal para profissionais e estudantes que queiram entender como aplicar **Machine Learning**, **Análise de Dados** e **Otimização** no contexto de **logística e supply chain**.
 
 ---
+
